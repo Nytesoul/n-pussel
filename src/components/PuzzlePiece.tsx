@@ -11,9 +11,9 @@ const PuzzlePiece = ({piece, onClickPiece, pieceWidth}: PuzzlePieceProps) => {
     onClickPiece(piece);
   }
 
-  const pieceStyles = {
+  const pieceStyles: {[key: string]: string} = {
     width: `${pieceWidth}%`,
-    paddingBottom: `${pieceWidth}%`
+    paddingBottom: `${pieceWidth}%`,
   };
 
   if (!piece.isEmpty) {
@@ -27,7 +27,7 @@ const PuzzlePiece = ({piece, onClickPiece, pieceWidth}: PuzzlePieceProps) => {
   }
 
   return (
-    <div className={`puzzlepiece empty`} style={pieceStyles}></div>
+    <div className={`puzzlepiece`} style={pieceStyles}></div>
   )
 }
 
