@@ -1,0 +1,120 @@
+html {
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 15px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+.puzzleboard {
+  position: relative;
+  margin: 0 auto;
+  box-shadow: inset 1px 1px 4px 0px rgb(0 0 0 / 40%);
+  border-radius: 8px;
+  max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.puzzleboard.inactive {
+  opacity: 50%;
+  pointer-events: none;
+}
+
+.puzzlepiece {
+  min-width: 10%;
+  padding-bottom: 25%;
+  position: relative;
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.puzzlepiece.filled {
+  box-sizing: border-box;
+  font-size: 0;
+}
+
+.puzzlepiece.filled .puzzlepiece-inner:hover {
+  background-color: #e4f0ff;
+  border-width: 2px;
+}
+
+.puzzlepiece-padding {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+}
+
+.puzzlepiece-inner {
+  display: block;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  border-radius: 6px;
+  background-color: #cbe2ff;
+}
+
+.puzzlepiece span {
+  font-size: 25px;
+  font-weight: bold;
+  display: block;
+}
+
+.btn {
+  border: 0;
+  border-radius: 5px;
+  background-color: #191970;
+  color: #fff;
+  padding: 20px 25px;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.btn:hover {
+  background-color: #3737cb;
+}
+
+.centered {
+  text-align: center;
+}
+
+.success-popup {
+  background-color: #fff;
+  box-shadow: 0px 3px 5px rgb(0 0 0 / 40%);
+  width: 320px;
+  padding: 30px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
