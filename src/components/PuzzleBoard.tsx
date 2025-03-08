@@ -1,4 +1,5 @@
 import { Piece } from "../models/piece"
+import { move } from "../util/movePieces";
 import PuzzlePiece from "./PuzzlePiece";
 
 interface PuzzleBoardProps {
@@ -24,53 +25,42 @@ const PuzzleBoard = ({ isActive, pieces, setPieces, setMoves, moves, columns }: 
       updatedPieces[clickedPos] = { number: -1, position: clickedPos, isEmpty: true };
     }
 
-    // Y-axis movement
-    if (((clickedPos - emptyPos) % columns === 0)) { // Check if click occured on the column where the empty piece is
-      // Down
-      if (clickedPos < emptyPos) {
-        for(let i = clickedPos; i < emptyPos; i=i+columns) {
-          updatedPieces[i+columns] = { number: pieces[i].number, position: pieces[i+columns].position };
-        }
+    const groupedRows: Piece[][] = [];
+    let clickedRowIndex: number = 0;
+    let emptyRowIndex: number = 0;
+
+    // Group each row into an array
+    for (let i = 0, rowIndex = 0; i < updatedPieces.length; i+=columns, rowIndex++) {
+      const currentRow = pieces.slice(i, i + columns);
+      groupedRows.push(currentRow);
+
+      if (currentRow.includes(clickedPiece)) {
+        clickedRowIndex = rowIndex;
       }
-      // Up
+      if (currentRow.includes(emptyPiece)) {
+        emptyRowIndex = rowIndex;
+      }
+    }
+
+    // X-axis movement
+    if (clickedRowIndex === emptyRowIndex) {
+      if (clickedPos < emptyPos) {
+        move('left', clickedPos, emptyPos, pieces, updatedPieces);
+      }
       else {
-        for(let i = clickedPos; i > emptyPos; i=i-columns) {
-          updatedPieces[i-columns] = { number: pieces[i].number, position: pieces[i-columns].position };
-        }
+        move('right', clickedPos, emptyPos, pieces, updatedPieces);
       }
       shouldMove = true;
     }
-  
-    // X-axis movement
-    else {
-      const groupedRows: Piece[][] = [];
-
-      // Group each row into an array
-      for (let i = 0; i < updatedPieces.length; i+=columns) {
-        groupedRows.push(pieces.slice(i, i + columns));
+    // Y-axis movement
+    else if (groupedRows[clickedRowIndex].indexOf(clickedPiece) === groupedRows[emptyRowIndex].indexOf(emptyPiece)) {
+      if (clickedRowIndex < emptyRowIndex) {
+        move('down', clickedPos, emptyPos, pieces, updatedPieces, columns);
       }
-
-      for (let i = 0; i < groupedRows.length; i++) {
-        // Determine if the clicked and empty pieces are in the same row
-        if (groupedRows[i].includes(clickedPiece) && groupedRows[i].includes(emptyPiece)) {
-          // Left
-          if (clickedPos < emptyPos) {
-            for(let i = clickedPos; i < emptyPos; i++) {
-              updatedPieces[i+1] = { number: pieces[i].number, position: pieces[i+1].position };
-              shouldMove = true;
-            }
-            break;
-          }
-          // Right
-          else {
-            for(let i = emptyPos; i < clickedPos; i++) {
-              updatedPieces[i] = { number: pieces[i+1].number, position: pieces[i].position };
-              shouldMove = true;
-            }
-            break;
-          }
-        }
+      else {
+        move('up', clickedPos, emptyPos, pieces, updatedPieces, columns);
       }
+      shouldMove = true;
     }
 
     if (shouldMove) {
